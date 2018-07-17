@@ -24,3 +24,8 @@ def get_vicinity_factor(request, vicinity='lagos'):
 def get_all_purposes_and_factors(request):
     data=subject.get_all_purposes_and_factors()
     return  JsonResponse({'data':data})
+
+def get_purpose_factor(request, purpose=[]):
+    new_purpose = purpose.strip().split(',')
+    data=subject.get_purpose_factor(new_purpose)
+    return  JsonResponse({'data':data})

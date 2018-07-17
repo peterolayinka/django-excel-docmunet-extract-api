@@ -34,4 +34,7 @@ urlpatterns = [
     path('all-purpose-factor/', 
             views.get_all_purposes_and_factors, 
             name='all_purpose_and_factor'),
+    path('purpose-factor/<purpose>/', 
+            views.get_purpose_factor, 
+            name='all_purpose_and_factor'),
 ]
