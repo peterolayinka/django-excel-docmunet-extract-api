@@ -54,7 +54,7 @@ class SubjectPricing:
                     column_data[new_key]=cell.col_idx
         return column_data
 
-    def get_state_factor(self, state):
+    def get_state_factor(self, state="lagos"):
         start_row = 2
         state_col = self.find_column_num()['state_0']
         state_fx = self.find_column_num()['state_fx']
@@ -264,6 +264,6 @@ class SubjectPricing:
             'transport_fare': transport_fare,
         }
 
-fff=SubjectPricing(download=True)
-import pdb; pdb.set_trace()
-pass
+# fff=SubjectPricing(download=True)
+# import pdb; pdb.set_trace()
+# pass

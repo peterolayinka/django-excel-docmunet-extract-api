@@ -19,5 +19,18 @@ import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('ex', views.list, name='ex')
+    path('state-factor/<slug:state>/', 
+            views.get_state_factor, name='get_state_factor'),
+    path('all-states-with-vicinities/', 
+            views.get_all_states_with_vicinities, 
+            name='get_all_states_with_vicinities'),
+    path('state-with-vicinity/<slug:state>/', 
+            views.get_state_vicinities, 
+            name='get_state_vicinities'),
+    path('vicinity-factor/<slug:vicinity>/', 
+            views.get_vicinity_factor, 
+            name='get_vicinity_factor'),
+    path('all-purposes-factors/', 
+            views.get_all_purposes_and_factors, 
+            name='get_all_purposes_and_factors'),
 ]
