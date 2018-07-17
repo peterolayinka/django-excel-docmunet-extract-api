@@ -1,5 +1,6 @@
 #!/bin/bash
 source venv/bin/activate
+source .env
 
 if [[ $1 == true ]]
 then 
