@@ -137,7 +137,6 @@ class SubjectPricing:
         ]
         from functools import reduce
         if len(purpose_factors) > 0:
-            import pdb; pdb.set_trace()
             return reduce(lambda x, y: x*y, purpose_factors)
         return 100
         
