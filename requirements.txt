@@ -1,0 +1,5 @@
+Django==2.0.7
+et-xmlfile==1.0.1
+jdcal==1.4
+openpyxl==2.5.4
+pytz==2018.5
