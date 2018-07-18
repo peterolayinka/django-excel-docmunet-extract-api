@@ -9,7 +9,9 @@ from utils import SubjectPricing
 subject_pricing=SubjectPricing()
 
 def get_state_factor(request, state='lagos'):
-    data=subject_pricing.get_state_factor(state)
+    new_state = state.strip().\
+                    replace('-', ' ')
+    data=subject_pricing.get_state_factor(new_state)
     return  JsonResponse({'data':data})
 
 def get_all_states_with_vicinities(request):
@@ -17,10 +19,14 @@ def get_all_states_with_vicinities(request):
     return  JsonResponse({'data':data})
 
 def get_state_vicinities(request, state='lagos'):
-    data=subject_pricing.get_state_vicinities(state)
+    new_state = state.strip().\
+                    replace('-', ' ')
+    data=subject_pricing.get_state_vicinities(new_state)
     return  JsonResponse({'data':data})
 
 def get_vicinity_factor(request, vicinity='lagos'):
+    new_vicinity = vicinity.strip().\
+                    replace('-', ' ')
     data=subject_pricing.get_vicinity_factor(vicinity)
     return JsonResponse({'data':data})
 
@@ -28,10 +34,11 @@ def get_all_purposes_and_factors(request):
     data=subject_pricing.get_all_purposes_and_factors()
     return  JsonResponse({'data':data})
 
-def get_purpose_factor(request, purpose):
-    new_purpose = purpose.strip().\
+def get_purpose_factor(request, purpose=None):
+    if purpose:
+        purpose = purpose.strip().\
                     replace('-', ' ').split(',')
-    data=subject_pricing.get_purpose_factor(new_purpose)
+    data=subject_pricing.get_purpose_factor(purpose)
     return  JsonResponse({'data':data})
 
 def get_all_subjects_and_their_prices(request):
@@ -47,9 +54,9 @@ def get_all_curriculums_and_factors(request):
     data=subject_pricing.get_all_curriculums_and_factors()
     return  JsonResponse({'data':data})
 
-def get_curriculum_factor(request, curriculum):
+def get_curriculum_factor(request, curriculum="Not Sure"):
     new_curriculum = curriculum.strip().\
-                    replace('-', ' ').split(',')
+                        replace('-', ' ').split(',')
     data=subject_pricing.get_curriculum_factor(new_curriculum)
     return  JsonResponse({'data':data})
 
@@ -57,7 +64,7 @@ def get_all_hours_and_factors(request):
     data=subject_pricing.get_all_hours_and_factors()
     return  JsonResponse({'data':data})
 
-def get_hour_factor(request, hour):
+def get_hour_factor(request, hour=1):
     data=subject_pricing.get_hour_factor(hour)
     return  JsonResponse({'data':data})
 
@@ -72,14 +79,14 @@ def get_marketing_channels(request):
 @csrf_exempt
 def get_hourly_price_and_transport(request):
     json_data = json.loads(request.body)
-    try:
-        data=subject_pricing.get_hourly_price_and_transport(
-            students=json_data.get('students'), state=json_data.get('state'), 
-            vicinity=json_data.get('vicinity'), curriculums=json_data.get('curriculums'),
-            no_of_hours=json_data.get('no_of_hours'),
-            subject=json_data.get('subject')
-        )
-    except:
-        data=None
+    # try:
+    data=subject_pricing.get_hourly_price_and_transport(
+        students=json_data.get('students'), state=json_data.get('state', 'Lagos'), 
+        vicinity=json_data.get('vicinity'), curriculums=json_data.get('curriculums'),
+        no_of_hours=json_data.get('no_of_hours', 1),
+        subject=json_data.get('subject', "home tutoring")
+    )
+    # except:
+    #     data=None
     return  JsonResponse({'data':data})
 

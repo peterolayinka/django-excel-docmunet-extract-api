@@ -60,9 +60,11 @@ class SubjectPricing:
         state_col = self.find_column_num()["state_0"]
         state_fx = self.find_column_num()["state_fx"]
         for x in range(start_row, self.sheet.max_row):
-            if not self.sheet.cell(row=x, column=state_col).value:
+            sheet_value = self.sheet.cell(row=x, column=state_col).value.lower()
+            if not sheet_value:
                 break
-            if self.sheet.cell(row=x, column=state_col).value.lower() == state.lower():
+            if sheet_value == state.lower() \
+            or sheet_value == state.lower().replace("-", ""):
                 return self.sheet.cell(row=x, column=state_fx).value * 100
 
     def get_all_states_with_vicinities(self):
@@ -97,7 +99,8 @@ class SubjectPricing:
         vicinities = [
             state_
             for state_ in states_with_vicinities
-            if state_["state"].lower() == state.lower()
+            if state_["state"].lower() == state.lower() \
+            or state_["state"].lower() == state.replace("-", " ").lower()
         ]
         if len(vicinities) > 0:
             vicinities = vicinities[0]
@@ -111,7 +114,8 @@ class SubjectPricing:
             v["factor"]
             for s in states_with_vicinities
             for v in s["vicinities"]
-            if v["name"].lower().strip() == vicinity.lower().strip()
+            if v["name"].lower().strip() == vicinity.lower().strip() \
+            or v["name"].lower().strip() == vicinity.lower().replace("-", " ").strip()
         ]
         return vicinities[0] if len(vicinities) != 0 else 100
 
@@ -144,7 +148,8 @@ class SubjectPricing:
         purpose_factors = [
             purpose_["factor"]
             for purpose_ in purpose_and_factors
-            if purpose_["name"].lower().strip() in [x.lower() for x in new_purposes]
+            if purpose_["name"].lower().strip() in [x.lower() for x in new_purposes] \
+            or purpose_["name"].lower().strip() in [x.lower() for x in [y.replace("-", " ") for y in new_purposes]]
         ]
         from functools import reduce
 
@@ -187,7 +192,8 @@ class SubjectPricing:
         price = [
             s["price"]
             for s in subjects_with_price
-            if s["name"].lower() == subject.lower()
+            if s["name"].lower() == subject.lower() \
+            or s["name"].lower() == subject.replace("-"," ").lower()
         ]
         if price:
             return price[0]
@@ -214,7 +220,8 @@ class SubjectPricing:
         curriculum_factors = [
             curriculum_["factor"]
             for curriculum_ in curriculum_and_factors
-            if curriculum_["name"].lower().strip() in [x.lower() for x in curriculums]
+            if curriculum_["name"].lower().strip() in [x.lower() for x in curriculums] \
+            or curriculum_["name"].lower().strip() in [x.lower().replace("-"," ") for x in curriculums]
         ]
         if len(curriculum_factors) > 0:
             return max(curriculum_factors)
@@ -259,7 +266,7 @@ class SubjectPricing:
         hour_factors = [
             hour_factor["factor"]
             for hour_factor in hours
-            if hour_factor["hours"] == hour
+            if hour_factor["hours"] == float(hour)
         ]
         return hour_factors[0] if len(hour_factors) == 1 else 0
 
