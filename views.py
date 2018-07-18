@@ -79,14 +79,14 @@ def get_marketing_channels(request):
 @csrf_exempt
 def get_hourly_price_and_transport(request):
     json_data = json.loads(request.body)
-    # try:
-    data=subject_pricing.get_hourly_price_and_transport(
-        students=json_data.get('students'), state=json_data.get('state', 'Lagos'), 
-        vicinity=json_data.get('vicinity'), curriculums=json_data.get('curriculums'),
-        no_of_hours=json_data.get('no_of_hours', 1),
-        subject=json_data.get('subject', "home tutoring")
-    )
-    # except:
-    #     data=None
+    try:
+        data=subject_pricing.get_hourly_price_and_transport(
+            students=json_data.get('students'), state=json_data.get('state', 'Lagos'), 
+            vicinity=json_data.get('vicinity'), curriculums=json_data.get('curriculums'),
+            no_of_hours=json_data.get('no_of_hours', 1),
+            subject=json_data.get('subject', "home tutoring")
+        )
+    except:
+        data=None
     return  JsonResponse({'data':data})
 
