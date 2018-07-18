@@ -1,5 +1,8 @@
+import json 
+
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from utils import SubjectPricing
 
 # Create your views here.
@@ -53,3 +56,30 @@ def get_curriculum_factor(request, curriculum):
 def get_all_hours_and_factors(request):
     data=subject_pricing.get_all_hours_and_factors()
     return  JsonResponse({'data':data})
+
+def get_hour_factor(request, hour):
+    data=subject_pricing.get_hour_factor(hour)
+    return  JsonResponse({'data':data})
+
+def get_purpose_curriculum_relation(request):
+    data=subject_pricing.get_purpose_curriculum_relation()
+    return  JsonResponse({'data':data})
+
+def get_marketing_channels(request):
+    data=subject_pricing.get_marketing_channels()
+    return  JsonResponse({'data':data})
+
+@csrf_exempt
+def get_hourly_price_and_transport(request):
+    json_data = json.loads(request.body)
+    try:
+        data=subject_pricing.get_hourly_price_and_transport(
+            students=json_data.get('students'), state=json_data.get('state'), 
+            vicinity=json_data.get('vicinity'), curriculums=json_data.get('curriculums'),
+            no_of_hours=json_data.get('no_of_hours'),
+            subject=json_data.get('subject')
+        )
+    except:
+        data=None
+    return  JsonResponse({'data':data})
+
